@@ -4,13 +4,13 @@
 
 
 # Contributors: 
-Bianca Zlavog [![](https://orcid.org/sites/default/files/images/orcid_16x16.png)](https://orcid.org/0000-0001-6868-7265)
+[Bianca Zlavog](https://github.com/zlavogb) [![](https://orcid.org/sites/default/files/images/orcid_16x16.png)](https://orcid.org/0000-0001-6868-7265)
 
-Iacopo Garizio
+[Iacopo Garizio](https://github.com/igarizio)
 
 [Advika Battini](https://github.com/advika18) [![](https://orcid.org/sites/default/files/images/orcid_16x16.png)](https://orcid.org/0000-0003-1801-6484)
 
-James Lee
+[James Lee](https://github.com/jameslee0920)
 
 # Contents:
 add info here
@@ -19,6 +19,7 @@ Citation: Burke, M., Hsiang, S. & Miguel, E. Global non-linear effect of tempera
 
 # Data:
 add info here
+The data for this project are provided by the authors through the [Stanford Digital Repository](https://purl.stanford.edu/wb587wt4560)
 
 # Dependencies:
 add info here
