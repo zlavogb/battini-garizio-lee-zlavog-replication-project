@@ -18,7 +18,6 @@ add info here
 Citation: Burke, M., Hsiang, S. & Miguel, E. Global non-linear effect of temperature on economic production. Nature 527, 235–239 (2015). [https://doi.org/10.1038/nature15725](https://doi.org/10.1038/nature15725)
 
 # Data:
-add info here
 The data for this project are provided by the authors through the [Stanford Digital Repository](https://purl.stanford.edu/wb587wt4560)
 
 # Dependencies:
