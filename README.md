@@ -92,4 +92,9 @@ STATA packages used:
 | vallist |
 | estout |
 
+STATA external scripts used:
+|  name      |
+| ----------- |
+| cgmreg |
+
 STATA version Stata/MP 14
