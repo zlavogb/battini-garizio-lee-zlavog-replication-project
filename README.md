@@ -27,17 +27,19 @@ The data for this project are provided by the authors through the [Stanford Digi
 
 # Dependencies:
 
+Software: R, Stata
+
 R packages used:
 
 |  name      | version |
 | ----------- | ----------- |
-| maptools | x |
-| fields | x |
-| classInt | x |
-| plotrix | x |
-| dplyr | x |
+| maptools | 0.9-9 |
+| fields | 10.0 |
+| classInt | 0.4-2 |
+| plotrix | 3.7-7 |
+| dplyr | 0.8.3 |
 | ncdf | x |
-| maps | x |
+| maps | 3.3.0 |
 | raster | x |
 | data.table | x |
 | wq | x |
@@ -45,9 +47,12 @@ R packages used:
 | xtable | x |
 | reshape2 | x |
 | rworldmap | x |
+| spam | 2.5-1 |
 
 R version 3.6.2 (2019-12-12)
+
 Platform: x86_64-w64-mingw32/x64 (64-bit)
+
 Running under: Windows Server x64 (build 14393)
 
 Matrix products: default
@@ -60,10 +65,21 @@ locale:
 [5] LC_TIME=English_United States.1252    
 
 attached base packages:
-[1] grid      stats     graphics  grDevices utils     datasets  methods  
-[8] base     
+grid      
+stats     
+graphics  
+grDevices utils     
+datasets  
+methods  
+base     
 
 other attached packages:
-[1] dplyr_0.8.3     plotrix_3.7-7   classInt_0.4-2  fields_10.0    
-[5] maps_3.3.0      spam_2.5-1      dotCall64_1.0-0 maptools_0.9-9 
-[9] sp_1.3-2    
+dplyr_0.8.3     
+plotrix_3.7-7  
+classInt_0.4-2  
+fields_10.0    
+maps_3.3.0      
+spam_2.5-1      
+dotCall64_1.0-0 
+maptools_0.9-9 
+sp_1.3-2    
