@@ -13,12 +13,17 @@
 [James Lee](https://github.com/jameslee0920)
 
 # Contents:
-add info here
+In this repository, our team aims to upload the code and data used to replicate some of the key figures and claims in the following paper:
 
-Citation: Burke, M., Hsiang, S. & Miguel, E. Global non-linear effect of temperature on economic production. Nature 527, 235–239 (2015). [https://doi.org/10.1038/nature15725](https://doi.org/10.1038/nature15725)
+Burke, M., Hsiang, S. & Miguel, E. Global non-linear effect of temperature on economic production. Nature 527, 235–239 (2015). [https://doi.org/10.1038/nature15725](https://doi.org/10.1038/nature15725)
+
+This article seeks to model the relationship between gross domestic product per capita and climate change, discovering a quadratic relationship between climate variables such as temperature and precipitation with economic growth. The authors predict a 23\% decrease in global economic output by 2100 given “business-as-usual” emissions scenarios, relative to forecasts without climate change. Also of interest is the disproportionate negative economic impacts on lower-income countries which are typically warmer, compared to high-income countries which have lower temperatures; the authors predict slight economic gains for the wealthiest 20\% of countries, in contrast with decreases of 75\% for the poorest 40\% of countries.
+
+We hope to replicate figures 2a and 3a from the paper. The first of these depicts the non-linear relationship between global temperatures and change in gross domestic product per capita, with incomes peaking around 13 degrees Celsius. This figure also points out where some of the major countries are located on this curve, and how population and economic output are distributed at various levels of temperature. The second figure we hope to replicate demonstrates how scenarios of large temperature increases with high economic growth will impact the projected GDP per capita of countries around the world, particularly resulting in a wider distribution than in scenarios without climate change, and disproportionately affecting lower-income countries.
+
 
 # Data:
-The data for this project are provided by the authors through the [Stanford Digital Repository](https://purl.stanford.edu/wb587wt4560)
+The data for this project are provided by the authors through the [Stanford Digital Repository](https://purl.stanford.edu/wb587wt4560).
 
 # Dependencies:
 add info here
