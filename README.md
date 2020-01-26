@@ -28,8 +28,9 @@ The data for this project are provided by the authors through the [Stanford Digi
 # Dependencies:
 
 R packages used:
+
 |  name      | version |
-| -----------   | ----------- |
+| ----------- | ----------- |
 | maptools | x |
 | fields | x |
 | classInt | x |
