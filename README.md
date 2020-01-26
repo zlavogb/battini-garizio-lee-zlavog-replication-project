@@ -45,3 +45,25 @@ R packages used:
 | xtable | x |
 | reshape2 | x |
 | rworldmap | x |
+
+R version 3.6.2 (2019-12-12)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows Server x64 (build 14393)
+
+Matrix products: default
+
+locale:
+[1] LC_COLLATE=English_United States.1252 
+[2] LC_CTYPE=English_United States.1252   
+[3] LC_MONETARY=English_United States.1252
+[4] LC_NUMERIC=C                          
+[5] LC_TIME=English_United States.1252    
+
+attached base packages:
+[1] grid      stats     graphics  grDevices utils     datasets  methods  
+[8] base     
+
+other attached packages:
+[1] dplyr_0.8.3     plotrix_3.7-7   classInt_0.4-2  fields_10.0    
+[5] maps_3.3.0      spam_2.5-1      dotCall64_1.0-0 maptools_0.9-9 
+[9] sp_1.3-2    
