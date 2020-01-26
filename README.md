@@ -83,3 +83,13 @@ spam_2.5-1
 dotCall64_1.0-0 
 maptools_0.9-9 
 sp_1.3-2    
+
+STATA packages used:
+
+|  name      |
+| ----------- |
+| parmest |
+| vallist |
+| estout |
+
+STATA version Stata/MP 14
