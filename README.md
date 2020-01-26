@@ -6,7 +6,7 @@
 # Contributors: 
 [Bianca Zlavog](https://github.com/zlavogb) [![](https://orcid.org/sites/default/files/images/orcid_16x16.png)](https://orcid.org/0000-0001-6868-7265)
 
-[Iacopo Garizio](https://github.com/igarizio)
+[Iacopo Garizio](https://github.com/igarizio) [![](https://orcid.org/sites/default/files/images/orcid_16x16.png)](https://orcid.org/0000-0002-8431-516X)
 
 [Advika Battini](https://github.com/advika18) [![](https://orcid.org/sites/default/files/images/orcid_16x16.png)](https://orcid.org/0000-0003-1801-6484)
 
