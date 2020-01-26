@@ -26,4 +26,21 @@ We hope to replicate figures 2a and 3a from the paper. The first of these depict
 The data for this project are provided by the authors through the [Stanford Digital Repository](https://purl.stanford.edu/wb587wt4560).
 
 # Dependencies:
-add info here
+
+R packages used:
+|  name      | version |
+| -----------   | ----------- |
+| maptools | x |
+| fields | x |
+| classInt | x |
+| plotrix | x |
+| dplyr | x |
+| ncdf | x |
+| maps | x |
+| raster | x |
+| data.table | x |
+| wq | x |
+| ggplot2 | x |
+| xtable | x |
+| reshape2 | x |
+| rworldmap | x |
