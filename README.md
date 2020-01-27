@@ -57,14 +57,18 @@ Running under: Windows Server x64 (build 14393)
 
 Matrix products: default
  
-attached base packages:
-grid      
-stats     
-graphics  
-grDevices utils     
-datasets  
-methods  
-base       
+Attached base packages:
+
+|  name      |
+| ----------- |
+| grid |
+| stats  |
+| graphics  |
+| datasets |
+| base |
+| methods |
+| grDevices utils  |
+           
 
 STATA packages used:
 
