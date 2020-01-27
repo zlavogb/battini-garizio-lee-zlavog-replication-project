@@ -93,6 +93,7 @@ STATA packages used:
 | estout |
 
 STATA external scripts used:
+
 |  name      |
 | ----------- |
 | cgmreg |
