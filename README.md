@@ -3,14 +3,14 @@
 ### University of Washington, DATA 598A Winter 2020
 
 
-# Contributors: 
+# Contributors:
 [Bianca Zlavog](https://github.com/zlavogb) [![](https://orcid.org/sites/default/files/images/orcid_16x16.png)](https://orcid.org/0000-0001-6868-7265)
 
 [Iacopo Garizio](https://github.com/igarizio) [![](https://orcid.org/sites/default/files/images/orcid_16x16.png)](https://orcid.org/0000-0002-8431-516X)
 
 [Advika Battini](https://github.com/advika18) [![](https://orcid.org/sites/default/files/images/orcid_16x16.png)](https://orcid.org/0000-0003-1801-6484)
 
-[James Lee](https://github.com/jameslee0920)
+[James Lee](https://github.com/jameslee0920) [![](https://orcid.org/sites/default/files/images/orcid_16x16.png)](https://orcid.org/0000-0002-5377-8284)
 
 # Contents:
 In this repository, our team aims to upload the code and data used to replicate some of the key figures and claims in the following paper:
@@ -24,7 +24,7 @@ We hope to replicate figures 2a and 3a from the paper. The first of these depict
 
 # Data:
 The data for this project are provided by the authors through the [Stanford Digital Repository](https://purl.stanford.edu/wb587wt4560).
-
+Author included stata code for data formatting along with code for figures and tables. Author also included code for the modeling or the projections in R. The code for the tables and figures have been made available for both R and Stata.  
 # Dependencies:
 
 Software: R, Stata
@@ -58,7 +58,7 @@ Running under: Windows Server x64 (build 14393)
 Matrix products: default
 
 locale:
-[1] LC_COLLATE=English_United States.1252 
+[1] LC_COLLATE=English_United States.1252
 [2] LC_CTYPE=English_United States.1252   
 [3] LC_MONETARY=English_United States.1252
 [4] LC_NUMERIC=C                          
@@ -80,8 +80,8 @@ classInt_0.4-2
 fields_10.0    
 maps_3.3.0      
 spam_2.5-1      
-dotCall64_1.0-0 
-maptools_0.9-9 
+dotCall64_1.0-0
+maptools_0.9-9
 sp_1.3-2    
 
 STATA packages used:
