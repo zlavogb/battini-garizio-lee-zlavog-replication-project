@@ -25,7 +25,9 @@ We hope to replicate figures 2a and 3a from the paper. The first of these depict
 # Data:
 The data for this project are provided by the authors through the [Stanford Digital Repository](https://purl.stanford.edu/wb587wt4560).
 Author included stata code for data formatting along with code for figures and tables. Author also included code for the modeling or the projections in R. The code for the tables and figures have been made available for both R and Stata.  
+
 # Dependencies:
+Note that a few of the R packages used by the script provided by the authors for replication are not available under the current version of R we are using, and we will likely have to find a workaround to be able to replicate their results.
 
 Software: R, Stata
 
@@ -38,15 +40,15 @@ R packages used:
 | classInt | 0.4-2 |
 | plotrix | 3.7-7 |
 | dplyr | 0.8.3 |
-| ncdf | x |
+| ncdf | package not available for R version 3.6.2 |
 | maps | 3.3.0 |
-| raster | x |
-| data.table | x |
-| wq | x |
-| ggplot2 | x |
-| xtable | x |
-| reshape2 | x |
-| rworldmap | x |
+| raster | 3.0-7 |
+| data.table | 1.12.8 |
+| wq | package not available for R version 3.6.2 |
+| ggplot2 | 3.2.1 |
+| xtable | 1.8-4 |
+| reshape2 | 1.4.3 |
+| rworldmap | 1.3-6 |
 | spam | 2.5-1 |
 
 R version 3.6.2 (2019-12-12)
