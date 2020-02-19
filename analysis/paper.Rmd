@@ -1,0 +1,13 @@
+---
+title: "Replication Project"
+author: "Bianca Zlavog, Iacopo Garizio, Advika Battini, James Lee"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+bibliography: bibliography.bib
+output: bookdown::word_document2
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# References cited
