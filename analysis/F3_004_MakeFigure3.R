@@ -11,7 +11,7 @@ require(classInt)
 require(plotrix)
 require(data.table)
 require(dplyr)
-require(ncdf)
+require(ncdf4)
 require(raster)
 library(maps)
 library(xtable)
@@ -23,7 +23,7 @@ library(rworldmap)
 scens <- c("base","SSP"%&%1:5)
 yrs <- 2010:2099
 
-pdf(file="figures/MainFigs_Input/Figure3.pdf",height=15,width=15)
+pdf(file="notes/Figure3.pdf",height=15,width=15)
 par(mar=c(5,4,4,4),xaxs="i",yaxs="i",mfrow=c(1,2))
 scen=6
 load("data/output/projectionOutput/GDPcapCC_pooled_"%&%scens[scen]%&%".Rdata")

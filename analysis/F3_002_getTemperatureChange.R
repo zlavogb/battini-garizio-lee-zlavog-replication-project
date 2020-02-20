@@ -4,20 +4,21 @@
 
 rm(list=ls())
 
-library(ncdf)
+library(ncdf4)
 library(maptools)
 library(maps)
 library(raster)
+library(rgdal)
 "%&%"<-function(x,y)paste(x,y,sep="")
 
-cty=readShapePoly('data/input/shape/country.shp')  #shapefile of global countries, as provided by ESRI distribution
+cty=readOGR(dsn="./data/input/shape",layer="country")  #shapefile of global countries, as provided by ESRI distribution
 cty1 <- cty[cty@data[,3]!="Antarctica" & cty@data[,3]!="Svalbard",]  #drop antarctica
 
 #########################################################################################
 # Read in CMIP5 global temperature projections, using data from here: http://climexp.knmi.nl/plot_atlas_form.py 
 #  these are model ensemble averages, giving temperature changes 2080-2100 minus 1986-2005
-nc <- open.ncdf("data/input/CCprojections/diff_tas_Amon_modmean_rcp85_000_2081-2100_minus_1986-2005_mon1_ave12_withsd.nc")
-tmp <- get.var.ncdf(nc,"diff")
+nc <- nc_open("data/input/CCprojections/diff_tas_Amon_modmean_rcp85_000_2081-2100_minus_1986-2005_mon1_ave12_withsd.nc")
+tmp <- ncvar_get(nc,"diff")
 r <- raster(aperm(tmp[c(73:144,1:72),72:1],c(2,1)),xmn=-180,xmx=180,ymn=-90,ymx=90)
 plot(r)
 map(,add=T)
