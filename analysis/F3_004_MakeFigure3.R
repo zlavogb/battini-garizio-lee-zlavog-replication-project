@@ -25,35 +25,26 @@ yrs <- 2010:2099
 
 pdf(file="notes/Figure3.pdf",height=15,width=15)
 par(mar=c(5,4,4,4),xaxs="i",yaxs="i",mfrow=c(1,2))
-scen=6
-load("data/output/projectionOutput/GDPcapCC_pooled_"%&%scens[scen]%&%".Rdata")
-load("data/output/projectionOutput/GDPcapNoCC_pooled_"%&%scens[scen]%&%".Rdata")
-cx = 1.4 #scaling factor for labels
-plot(1,type="n",xlim=c(1920,2100),ylim=c(4.5,14),axes=F,ylab="GDP per capita (1000 $)",xlab="",las=1,cex.lab=cx)
-ll <- c(100,200,500,1000,2000,5000,10000,20000,50000,100000,200000,500000)
-axis(2,at=log(ll),labels=ll/1000,las=1,cex.axis=cx)
-axis(4,at=log(ll),labels=ll/1000,las=1,cex.axis=cx)
-axis(1,at=c(1921,1970,2010,2050,2099),labels=c("2100","2050","today","2050","2100"),cex.axis=cx)
-for (i in 1:dim(GDPcapCC)[1])  {
-  lines(yrs,log(GDPcapNoCC[i,,1]),col="grey")
-  lines(rev(yrs)-89,log(GDPcapCC[i,,1]),col="red")
-}
-abline(v=2010)
 
-scen=4
-load("data/output/projectionOutput/GDPcapCC_pooled_"%&%scens[scen]%&%".Rdata")
-load("data/output/projectionOutput/GDPcapNoCC_pooled_"%&%scens[scen]%&%".Rdata")
-cx = 1.4 #scaling factor for labels
-plot(1,type="n",xlim=c(1920,2100),ylim=c(4.5,14),axes=F,ylab="GDP per capita (1000 $)",xlab="",las=1,cex.lab=cx)
-ll <- c(100,200,500,1000,2000,5000,10000,20000,50000,100000,200000,500000)
-axis(2,at=log(ll),labels=ll/1000,las=1,cex.axis=cx)
-axis(4,at=log(ll),labels=ll/1000,las=1,cex.axis=cx)
-axis(1,at=c(1921,1970,2010,2050,2099),labels=c("2100","2050","today","2050","2100"),cex.axis=cx)
-for (i in 1:dim(GDPcapCC)[1])  {
-  lines(yrs,log(GDPcapNoCC[i,,1]),col="grey")
-  lines(rev(yrs)-89,log(GDPcapCC[i,,1]),col="red")
+plotter <- function(scen){
+  load("data/output/projectionOutput/GDPcapCC_pooled_"%&%scens[scen]%&%".Rdata")
+  load("data/output/projectionOutput/GDPcapNoCC_pooled_"%&%scens[scen]%&%".Rdata")
+  cx = 1.4 #scaling factor for labels
+  plot(1,type="n",xlim=c(1920,2100),ylim=c(4.5,14),axes=F,ylab="GDP per capita (1000 $)",xlab="",las=1,cex.lab=cx)
+  ll <- c(100,200,500,1000,2000,5000,10000,20000,50000,100000,200000,500000)
+  axis(2,at=log(ll),labels=ll/1000,las=1,cex.axis=cx)
+  axis(4,at=log(ll),labels=ll/1000,las=1,cex.axis=cx)
+  axis(1,at=c(1921,1970,2010,2050,2099),labels=c("2100","2050","today","2050","2100"),cex.axis=cx)
+  for (i in 1:dim(GDPcapCC)[1])  {
+    lines(yrs,log(GDPcapNoCC[i,,1]),col="grey")
+    lines(rev(yrs)-89,log(GDPcapCC[i,,1]),col="red")
+  }
+  abline(v=2010)
 }
-abline(v=2010)
+
+plotter(6)
+plotter(4)
+
 dev.off()
 
 #statistics in paper on number of countries above/below thresholds
