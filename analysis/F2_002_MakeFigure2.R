@@ -38,7 +38,7 @@ ctys = c('USA','CHN','DEU','JPN','IND','NGA','IDN','BRA','FRA','GBR')
 ctt = c('US','CHN',"GER","JPN",'IND','NGA','INDO','BRA','FRA','UK')
 
 #initialize plot
-plot(1,xlim=c(-2,30),ylim=c(-0.4,0.1),type="n",las=1,cex.axis=1.3)
+plot(1,xlim=c(-2,30),ylim=c(-0.4,0.1),type="n",las=1,cex.axis=1.3,xlab='Annual average temperature (°C)',ylab="Change in ln(GDP per capita)")
 
 # add vertical average temperature lines for selected countries
 for (j in 1:length(ctys)) {
@@ -46,9 +46,12 @@ for (j in 1:length(ctys)) {
   segments(tt,-0.23,tt,0.15,lwd=0.5)
 }
 
+
+
 # plot CI and main effect
 polygon(c(x,rev(x)),c(min90,rev(max90)),col="lightblue",border=NA)
 lines(x,est,lwd=2)
+
 
 # now add histograms at bottom
 # first calculate percent of population and global gdp produced at each temperature bin, for our estimation sample
@@ -75,12 +78,15 @@ base = -0.3
 zz <- hist(histtemp,plot=F,breaks=bins)
 cts = zz$counts/max(zz$counts)*0.05  #sets the height of the tallest bar to 0.05
 rect(bins,base,bins+0.5,base+cts,col="red")
+text(6,base+0.055,labels="Global distribution of temperature observations")
 # pop
 cts = pop/max(pop)*0.05
 rect(bins,base-dis*(1),bins+0.5,base-dis*(1)+cts,col="grey")
+text(3,base-dis*(1)+0.045,labels="Global distribution of population")
 # gdp
 cts = gdp/max(gdp)*0.05
 rect(bins,base-dis*(2),bins+0.5,base-dis*(2)+cts,col="black")
+text(2,base-dis*(2)+0.045,labels="Global distribution of GDP")
 
 
 
@@ -95,7 +101,7 @@ resp <- resp[resp$x>=5,]  #dropping estimates below 5C, since so little poor cou
 mods = unique(as.character(resp$model))
 
 m <- "growthWDI"
-plot(1,xlim=c(5,30),ylim=c(-0.35,0.1),type="n",las=1,cex.axis=1.3,cex.lab=1.3,ylab="",xlab="")
+plot(1,xlim=c(5,30),ylim=c(-0.35,0.1),type="n",las=1,cex.axis=1.3,cex.lab=1.3,ylab="Change in ln(GDP per capita)",xlab="")
 smp = resp$model==m & resp$interact==1  #poor countries
 xx = resp$x[smp]
 mx = max(resp$estimate[smp])
@@ -126,7 +132,9 @@ zz1 <- hist(poortemp,plot=F,breaks=bins)
 cts = zz1$counts/max(zz1$counts)*0.05
 rect(bins,base,bins+0.5,base+cts,col="lightblue")
 
-
+legend(22, 0.1 , legend=c("Rich", "Poor"),
+       col=c("red", "steelblue3"), lty=1, cex=0.8,
+       box.lty=0)
 ########################################################
 #  Panel c
 ########################################################
@@ -163,7 +171,9 @@ zz1 <- hist(latetemp,plot=F,breaks=bins)
 cts = zz1$counts/max(zz1$counts)*0.05
 rect(bins,base,bins+0.5,base+cts,col="lightblue")
 
-
+legend(19, 0.1 , legend=c("1990-2010", "1960-1989"),
+       col=c("red", "steelblue3"), lty=1, cex=0.8,
+       box.lty=0)
 ########################################################
 #  Panels d, e
 ########################################################
@@ -174,24 +184,32 @@ rich <- dta$GDPpctile_WDIppp>=50
 resp <- resp[resp$x>=5,]  #dropping estimates below 5C, because so little poor country exposure there
 mods = unique(as.character(resp$model))
 toplot=c("AgrGDPgrowthCap","NonAgrGDPgrowthCap")
-
+tflag <- 1
 for (m in toplot) {
-  plot(1,xlim=c(5,30),ylim=c(-0.35,0.1),type="n",las=1,cex.axis=1.3,cex.lab=1.3,ylab="",xlab="")
-  smp = resp$model==m & resp$interact==1  #poor countries
+  plot(1,xlim=c(5,30),ylim=c(-0.35,0.1),type="n",las=1,cex.axis=1.3,cex.lab=1.3,ylab=ifelse(tflag,"Change in ln(GDP per capita)",""),xlab="Annual average temperature (°C)",
+       main=ifelse(tflag,"Agricultural GDP","Non-Agricultural GDP"))
+  smp = resp$model==m & resp$interact==1  #poor countries ifelse(test_expression, x, y)
   xx = resp$x[smp]
   mx = max(resp$estimate[smp])
   est = resp$estimate[smp] - mx  
   min90 = resp$min90[smp] - mx
   max90 = resp$max90[smp] - mx
   
+  
   polygon(c(xx,rev(xx)),c(min90,rev(max90)),col="lightblue",border=NA)
   lines(xx,est,lwd=2,col="steelblue3")
   # now add rich countries
-  smp = resp$model==m & resp$interact==0  #poor countries
+  smp = resp$model==m & resp$interact==0  #rich countries
   xx = resp$x[smp]
   mx = max(resp$estimate[smp])
   est = resp$estimate[smp] - mx  
   lines(xx,est,lwd=2,col="red")
+  
+  legend(22, 0.1 , legend=c("Rich", "Poor"),
+         col=c("red", "steelblue3"), lty=1, cex=0.8,
+         box.lty=0)
+  
+  tflag <- 0 ## for labeling plots appropriately
   
 }
 
