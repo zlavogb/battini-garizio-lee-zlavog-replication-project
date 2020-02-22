@@ -7,7 +7,34 @@ output: bookdown::word_document2
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE,
+                      collapse=TRUE,
+                      message=FALSE
+                      )
+knitr::opts_knit$set(root.dir = "../")
+
+knitr::read_chunk("F2_002_MakeFigure2.R")
+```
+## Introduction
+The chosen article, [@burke2015global], seeks to model the relationship between gross domestic product per capita and climate change. Prior works [@dell2012temperature]  have analysed the dependence of various economic production components on temperature at a micro-level. These works have also hypothesized that the micro-level observations do not translate to macro level changes in wealthy economies. In this paper, the authors attempt to connect the micro and macro-level analyses across rich and poor nations, discovering a non-linear relationship between climate variables such as temperature and precipitation with economic growth. The authors predict a 23% decrease in global economic output by 2100 given “business-as-usual” emissions scenarios, relative to forecasts without climate change. Also of interest is the disproportionate negative economic impacts on lower-income countries which are typically warmer, compared to high-income countries which have lower temperatures; the authors predict slight economic gains for the wealthiest 20% of countries, in contrast with decreases of 75% for the poorest 40% of countries.
+
+The following analysis replicates figures 2 and 3 from the paper. The first of these depicts the non-linear relationship between global temperatures and change in gross domestic product per capita, with incomes peaking around 13 degrees Celsius. This figure also points out where some of the major countries are located on this curve, and how population and economic output are distributed at various levels of temperature.
+The figure also depicts the abovementioned relationship for rich and poor countries. Countries with GDP less than the 50th percentile are grouped in the poor bracket. 
+
+The second figure demonstrates how scenarios of large temperature increases with high economic growth will impact the projected GDP per capita of countries around the world, particularly resulting in a wider distribution than in scenarios without climate change, and disproportionately affecting lower-income countries.
+
+## Analysis Process and Variations
+Instead of grouping the countries as rich and poor based on the 50th percentile, we will be using an income classification threshold based on world bank data..........
+
+```{r runfig2,echo=FALSE}
+<<runfig2>>
 ```
 
+```{r, include=TRUE, fig.cap=c("Effect of annual average temperature on economic production"), echo=FALSE}
+knitr::include_graphics("../notes/Figure2.pdf")
+```
+
+
+
 # References cited
+

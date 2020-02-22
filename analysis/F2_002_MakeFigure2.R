@@ -1,7 +1,7 @@
 
 # SCRIPT TO MAKE FIGURE 2
 # This file calls data created in GenerateFigure2Data.do
-
+# @knitr runfig2
 rm(list = ls())
 
 require(maptools)
