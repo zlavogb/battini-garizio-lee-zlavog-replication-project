@@ -2,7 +2,7 @@
 #  Make Figure 3
 
 #  Script also computes reported values on the percentage of countries poorer in absolute and relative terms
-
+# @knitr runfig3
 rm(list = ls())
 
 require(maptools)
@@ -23,7 +23,7 @@ library(rworldmap)
 scens <- c("base","SSP"%&%1:5)
 yrs <- 2010:2099
 
-pdf(file="notes/Figure3.pdf",height=15,width=15)
+#pdf(file="notes/Figure3.pdf",height=15,width=15)
 par(mar=c(5,4,4,4),xaxs="i",yaxs="i",mfrow=c(1,2))
 
 plotter <- function(scen){
@@ -45,7 +45,7 @@ plotter <- function(scen){
 plotter(6)
 plotter(4)
 
-dev.off()
+#dev.off()
 
 #statistics in paper on number of countries above/below thresholds
 for (scen in c(4,6)) {

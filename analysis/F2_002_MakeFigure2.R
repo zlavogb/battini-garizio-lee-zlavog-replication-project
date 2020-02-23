@@ -11,7 +11,7 @@ require(plotrix)
 require(dplyr)
 "%&%"<-function(x,y)paste(x,y,sep="")  #define a function for easy string pasting
 
-pdf(file="notes/Figure2.pdf",width=10,height=5.5,useDingbats=F)
+#pdf(file="notes/Figure2.pdf",width=10,height=5.5,useDingbats=F)
 
 mat <- matrix(c(1,1,2,3,1,1,4,5),nrow=2,byrow=T)
 layout(mat)
@@ -213,5 +213,5 @@ for (m in toplot) {
   
 }
 
-dev.off()
+#dev.off()
 
