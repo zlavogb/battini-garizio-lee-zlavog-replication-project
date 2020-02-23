@@ -27,7 +27,8 @@ The figure also depicts the abovementioned relationship for rich and poor countr
 The second figure demonstrates how scenarios of large temperature increases with high economic growth will impact the projected GDP per capita of countries around the world, particularly resulting in a wider distribution than in scenarios without climate change, and disproportionately affecting lower-income countries.
 
 ## Analysis Process and Variations
-Instead of grouping the countries as rich and poor based on the 50th percentile, we will be using an income classification threshold based on world bank data..........
+The paper, being consistent with "Climate change and economic growth: evidence from the last half century" [@dell2008climate], groups countries as rich and poor based on the 50th percentile of GDP at purchasing power parity (PPP). The implication of this classification has some effect on the assumptions the paper makes, so we will use an income classification threshold based on World Bank data [@wb2019classification]. We used the World Bank classifications of "low income" and "upper middle income" to recalculate the percentile that defines poor countries. The new percentile calculated is 42.  
+Given the similar curves of GDP per cápita in response to a change in annual average temperatures for rich and poor countries, this change should not have a high impact on the main conclusions of the paper.
 
 ```{r runfig2,echo=FALSE}
 <<runfig2>>
