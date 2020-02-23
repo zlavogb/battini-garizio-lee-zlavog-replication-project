@@ -36,7 +36,9 @@ The paper, being consistent with "Climate change and economic growth: evidence f
 Given the similar curves of GDP per capita in response to a change in annual average temperatures for rich and poor countries, this change should not have a high impact on the main conclusions of the paper.
 
 ### Bootstrap randomization
-Maybe we can do two variations (?).
+To replicate the same figures from the paper, the author uses a seed for each bootstrap regression. To verify that the seed was not causing the process to generate non-representative results, we changed it to a new value. In a robust and well-performed simulation and estimation, the seed chosen should not have a noticeable impact on the conclusions.
+
+## Figures obtained
 
 ```{r runfig2,echo=FALSE}
 <<runfig2>>
