@@ -1,7 +1,7 @@
 
 # CODE TO CALCULATE COUNTRY-SPECIFIC CHANGE IN TEMPERATURE UNDER RCP8.5, AND UNDER DIFFERENT GLOBAL AVERAGE WARMINGS (SO WE CAN CALCULATE DAMAGE FUNCTION)
 #   We are using CMIP5 RCP8.5 ensemble mean data from here: http://climexp.knmi.nl/plot_atlas_form.py 
-
+# @knitr gettemp
 rm(list=ls())
 
 library(ncdf4)

@@ -11,7 +11,7 @@
 #         different population/income projections.  
 # The main output is country- and year-specific per capita GDP projections to 2100, with and without climate change, 
 #     for multiple regression models and multiple future pop/income scenarios.  These are written out. 
-
+# @knitr compproj
 
 rm(list = ls())
 
