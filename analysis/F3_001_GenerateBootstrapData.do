@@ -13,7 +13,7 @@ cap mkdir data/output/bootstrap
 //  BOOTSTRAP MAIN SPECIFICATION 1000 times.  First run is baseline specification (i.e. not resampled); next thousand are resampled
 cap postutil clear
 postfile boot run temp temp2 prec prec2 using data/output/bootstrap/bootstrap_noLag, replace
-set seed 8675309
+set seed 8675300
 use data/input/GrowthClimateDataset, clear
 qui gen UDel_temp_popweight_2 = UDel_temp_popweight^2
 qui reg growthWDI UDel_temp_popweight UDel_temp_popweight_2 UDel_precip_popweight UDel_precip_popweight_2 i.year _yi_* _y2_* i.iso_id 
@@ -35,10 +35,10 @@ outsheet using data/output/bootstrap/bootstrap_noLag.csv, comma replace
 //ZERO LAG MODEL ALLOWING RICH/POOR TO RESPOND DIFFERENTLY
 cap postutil clear
 postfile boot run temp temppoor temp2 temp2poor prec precpoor prec2 prec2poor using data/output/bootstrap/bootstrap_richpoor, replace
-set seed 8675309
+set seed 8675300
 use data/input/GrowthClimateDataset, clear
 qui gen UDel_temp_popweight_2 = UDel_temp_popweight^2
-qui gen poor = (GDPpctile_WDIppp<50)
+qui gen poor = (GDPpctile_WDIppp<42)
 qui replace poor=. if GDPpctile_WDIppp==.
 qui reg growthWDI poor#c.(UDel_temp_popweight UDel_temp_popweight_2 UDel_precip_popweight UDel_precip_popweight_2) i.year _yi_* _y2_* i.iso_id 
 mat b = e(b)
@@ -48,7 +48,7 @@ forvalues nn = 1/1000 {
 	use data/input/GrowthClimateDataset, clear
 	bsample, cl(iso_id)  //draw a sample of countries with replacement
 	qui gen UDel_temp_popweight_2 = UDel_temp_popweight^2
-	qui gen poor = (GDPpctile_WDIppp<50)
+	qui gen poor = (GDPpctile_WDIppp<42)
 	qui replace poor=. if GDPpctile_WDIppp==.
 	qui reg growthWDI poor#c.(UDel_temp_popweight UDel_temp_popweight_2 UDel_precip_popweight UDel_precip_popweight_2) i.year _yi_* _y2_* i.iso_id 
 	mat b = e(b)
@@ -62,7 +62,7 @@ outsheet using data/output/bootstrap/bootstrap_richpoor.csv, comma replace
 
 //POOLED MODEL WITH LAGS
 postfile boot run temp L1temp L2temp L3temp L4temp L5temp temp2 L1temp2 L2temp2 L3temp2 L4temp2 L5temp2  using data/output/bootstrap/bootstrap_5Lag, replace
-set seed 8675309
+set seed 8675300
 use data/input/GrowthClimateDataset, clear
 xtset iso_id year
 qui gen UDel_temp_popweight_2 = UDel_temp_popweight^2
@@ -92,11 +92,11 @@ outsheet using data/output/bootstrap/bootstrap_5Lag.csv, comma replace
 postfile boot run temp temppoor L1temp L1temppoor L2temp L2temppoor L3temp L3temppoor L4temp L4temppoor L5temp L5temppoor ///
 	temp2 temp2poor L1temp2 L1temp2poor L2temp2 L2temp2poor L3temp2 L3temp2poor L4temp2 L4temp2poor L5temp2 L5temp2poor ///
 	using data/output/bootstrap/bootstrap_richpoor_5lag, replace
-set seed 8675309
+set seed 8675300
 use data/input/GrowthClimateDataset, clear
 xtset iso_id year
 qui gen UDel_temp_popweight_2 = UDel_temp_popweight^2
-qui gen poor = (GDPpctile_WDIppp<50)
+qui gen poor = (GDPpctile_WDIppp<42)
 qui replace poor=. if GDPpctile_WDIppp==.
 qui reg growthWDI poor#c.(L(0/5).(UDel_temp_popweight UDel_temp_popweight_2 UDel_precip_popweight UDel_precip_popweight_2)) i.year _yi_* _y2_* i.iso_id 
 mat b = e(b)
@@ -107,7 +107,7 @@ forvalues nn = 1/1000 {
 	bsample, cl(iso_id) idcluster(id) //draw a sample of countries with replacement
 	qui xtset id year  //need to use the new cluster variable it creates. 
 	qui gen UDel_temp_popweight_2 = UDel_temp_popweight^2	
-	qui gen poor = (GDPpctile_WDIppp<50)
+	qui gen poor = (GDPpctile_WDIppp<42)
 	qui replace poor=. if GDPpctile_WDIppp==.
 	qui reg growthWDI poor#c.(L(0/5).(UDel_temp_popweight UDel_temp_popweight_2 UDel_precip_popweight UDel_precip_popweight_2)) i.year _yi_* _y2_* i.iso_id 
 	mat b = e(b)

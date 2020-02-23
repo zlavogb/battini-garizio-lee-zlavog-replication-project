@@ -94,8 +94,8 @@ text(2,base-dis*(2)+0.045,labels="Global distribution of GDP")
 #  Panels b
 ########################################################
 resp <- read.csv("data/output/EffectHeterogeneity.csv")
-poor <- dta$GDPpctile_WDIppp<50
-rich <- dta$GDPpctile_WDIppp>=50
+poor <- dta$GDPpctile_WDIppp<42
+rich <- dta$GDPpctile_WDIppp>=42
 
 resp <- resp[resp$x>=5,]  #dropping estimates below 5C, since so little poor country exposure down there
 mods = unique(as.character(resp$model))
@@ -132,8 +132,8 @@ zz1 <- hist(poortemp,plot=F,breaks=bins)
 cts = zz1$counts/max(zz1$counts)*0.05
 rect(bins,base,bins+0.5,base+cts,col="lightblue")
 
-legend(22, 0.1 , legend=c("Rich", "Poor"),
-       col=c("red", "steelblue3"), lty=1, cex=0.8,
+legend(16, 0.1 , legend=c("Rich", "Poor"),
+       col=c("red", "steelblue3"), lty=1, cex=0.65,
        box.lty=0)
 ########################################################
 #  Panel c
@@ -171,16 +171,16 @@ zz1 <- hist(latetemp,plot=F,breaks=bins)
 cts = zz1$counts/max(zz1$counts)*0.05
 rect(bins,base,bins+0.5,base+cts,col="lightblue")
 
-legend(19, 0.1 , legend=c("1990-2010", "1960-1989"),
-       col=c("red", "steelblue3"), lty=1, cex=0.8,
+legend(10, 0.1 , legend=c("1990-2010", "1960-1989"),
+       col=c("red", "steelblue3"), lty=1, cex=0.65,
        box.lty=0)
 ########################################################
 #  Panels d, e
 ########################################################
 
 resp <- read.csv("data/output/EffectHeterogeneity.csv")
-poor <- dta$GDPpctile_WDIppp<50
-rich <- dta$GDPpctile_WDIppp>=50
+poor <- dta$GDPpctile_WDIppp<42
+rich <- dta$GDPpctile_WDIppp>=42
 resp <- resp[resp$x>=5,]  #dropping estimates below 5C, because so little poor country exposure there
 mods = unique(as.character(resp$model))
 toplot=c("AgrGDPgrowthCap","NonAgrGDPgrowthCap")
@@ -205,8 +205,8 @@ for (m in toplot) {
   est = resp$estimate[smp] - mx  
   lines(xx,est,lwd=2,col="red")
   
-  legend(22, 0.1 , legend=c("Rich", "Poor"),
-         col=c("red", "steelblue3"), lty=1, cex=0.8,
+  legend(16, 0.1 , legend=c("Rich", "Poor"),
+         col=c("red", "steelblue3"), lty=1, cex=0.65,
          box.lty=0)
   
   tflag <- 0 ## for labeling plots appropriately

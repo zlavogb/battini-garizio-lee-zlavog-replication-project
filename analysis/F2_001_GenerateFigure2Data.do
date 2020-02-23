@@ -47,7 +47,7 @@ qui xi i.iso_id*time2, pref(_y2_) //quadratic country time trend
 qui drop _yi_iso_id* 
 qui drop _y2_iso_id* 
 gen temp = UDel_temp_popweight 
-gen poorWDIppp = (GDPpctile_WDIppp<50)
+gen poorWDIppp = (GDPpctile_WDIppp<42)
 replace poorWDIppp=. if GDPpctile_WDIppp==.
 gen interact = poorWDIppp
 qui reg `var' interact#c.(c.temp##c.temp UDel_precip_popweight UDel_precip_popweight_2)  _yi_* _y2_* i.year i.iso_id, cl(iso_id) //PPP WDI baseline
