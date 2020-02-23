@@ -51,6 +51,7 @@ R packages used:
 | rworldmap | 1.3-6 |
 | spam | 2.5-1 |
 | pacman | 0.5.1 |
+| here | 0.1 |
 
 R version 3.6.2 (2019-12-12)
 
