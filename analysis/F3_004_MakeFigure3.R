@@ -5,18 +5,8 @@
 # @knitr runfig3
 rm(list = ls())
 
-require(maptools)
-require(fields)
-require(classInt)
-require(plotrix)
-require(data.table)
-require(dplyr)
-require(ncdf4)
-require(raster)
-library(maps)
-library(xtable)
-library(reshape2)
-library(rworldmap)
+library(pacman)
+p_load(maptools,fields,classInt,plotrix,data.table, dplyr, ncdf4, raster, maps, xtable, reshape2, rworldmap)
 "%&%"<-function(x,y)paste(x,y,sep="")  #define a function for easy string pasting
 
 

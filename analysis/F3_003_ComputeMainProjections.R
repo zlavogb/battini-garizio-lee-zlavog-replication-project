@@ -15,19 +15,8 @@
 
 rm(list = ls())
 
-require(maptools)
-require(fields)
-require(classInt)
-require(plotrix)
-require(data.table)
-require(dplyr)
-require(ncdf4)
-require(raster)
-library(maps)
-library(wq)
-library(ggplot2)
-library(xtable)
-library(reshape2)
+library(pacman)
+p_load(maptools,fields,classInt,plotrix,data.table, dplyr, ncdf4, maps, wq, ggplot2, xtable, reshape2)
 "%&%"<-function(x,y)paste(x,y,sep="")  #define a function for easy string pasting
 
 dir.create("data/output/projectionOutput")

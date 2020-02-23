@@ -4,11 +4,8 @@
 # @knitr gettemp
 rm(list=ls())
 
-library(ncdf4)
-library(maptools)
-library(maps)
-library(raster)
-library(rgdal)
+library(pacman)
+p_load(ncdf4, maptools,maps,raster,rgdal,here)
 "%&%"<-function(x,y)paste(x,y,sep="")
 
 cty=readOGR(dsn="./data/input/shape",layer="country")  #shapefile of global countries, as provided by ESRI distribution

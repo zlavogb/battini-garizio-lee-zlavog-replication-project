@@ -4,11 +4,8 @@
 # @knitr runfig2
 rm(list = ls())
 
-require(maptools)
-require(fields)
-require(classInt)
-require(plotrix)
-require(dplyr)
+library(pacman)
+p_load(ncdf4, maptools,fields,classInt,plotrix,dplyr, here)
 "%&%"<-function(x,y)paste(x,y,sep="")  #define a function for easy string pasting
 
 #pdf(file="notes/Figure2.pdf",width=10,height=5.5,useDingbats=F)
