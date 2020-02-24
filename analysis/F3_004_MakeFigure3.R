@@ -6,7 +6,7 @@
 rm(list = ls())
 
 library(pacman)
-p_load(maptools,fields,classInt,plotrix,data.table, dplyr, ncdf4, raster, maps, xtable, reshape2, rworldmap)
+p_load(maptools,fields,classInt,plotrix,data.table, dplyr, ncdf4, raster, maps, xtable, reshape2, rworldmap, here)
 "%&%"<-function(x,y)paste(x,y,sep="")  #define a function for easy string pasting
 
 

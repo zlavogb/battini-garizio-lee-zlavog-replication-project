@@ -16,7 +16,7 @@
 rm(list = ls())
 
 library(pacman)
-p_load(maptools,fields,classInt,plotrix,data.table, dplyr, ncdf4, maps, wq, ggplot2, xtable, reshape2)
+p_load(maptools,fields,classInt,plotrix,data.table, dplyr, ncdf4, maps, wq, ggplot2, xtable, reshape2, here)
 "%&%"<-function(x,y)paste(x,y,sep="")  #define a function for easy string pasting
 
 dir.create("data/output/projectionOutput")
