@@ -41,11 +41,11 @@ Given the similar curves of GDP per capita in response to a change in annual ave
 To replicate the same figures from the paper, the author uses a seed for each bootstrap regression. To verify that the seed was not causing the process to generate non-representative results, we changed it to a new value. In a robust and well-performed simulation and estimation, the seed chosen should not have a noticeable impact on the conclusions.
 
 ## Figures obtained
-```{r, echo=FALSE, message=FALSE}
+```{r, echo=FALSE, message=FALSE, eval=FALSE}
 library(Statamarkdown)
 ```
 
-```{stata prepfig2, collectcode=TRUE, echo = FALSE}
+```{stata prepfig2, collectcode=TRUE, echo = FALSE, error=TRUE}
 
 ```
 
@@ -53,7 +53,7 @@ library(Statamarkdown)
 
 ```
 
-```{stata prepfig3, collectcode=TRUE, echo = FALSE}
+```{stata prepfig3, collectcode=TRUE, echo = FALSE, error=TRUE}
 
 ```
 
