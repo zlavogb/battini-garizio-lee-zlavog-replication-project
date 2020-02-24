@@ -13,7 +13,9 @@ knitr::opts_chunk$set(echo = FALSE,
                       )
 knitr::opts_knit$set(root.dir = "../")
 
+knitr::read_chunk("F2_001_GenerateFigure2Data.do")
 knitr::read_chunk("F2_002_MakeFigure2.R")
+knitr::read_chunk("F3_001_GenerateBootstrapData.do")
 knitr::read_chunk("F3_002_getTemperatureChange.R")
 knitr::read_chunk("F3_003_ComputeMainProjections.R")
 knitr::read_chunk("F3_004_MakeFigure3.R")
@@ -39,25 +41,37 @@ Given the similar curves of GDP per capita in response to a change in annual ave
 To replicate the same figures from the paper, the author uses a seed for each bootstrap regression. To verify that the seed was not causing the process to generate non-representative results, we changed it to a new value. In a robust and well-performed simulation and estimation, the seed chosen should not have a noticeable impact on the conclusions.
 
 ## Figures obtained
+```{r, echo=FALSE, message=FALSE}
+library(Statamarkdown)
+```
+
+```{stata prepfig2, collectcode=TRUE, echo = FALSE}
+
+```
 
 ```{r runfig2,echo=FALSE}
-<<runfig2>>
+
 ```
 
+```{stata prepfig3, collectcode=TRUE, echo = FALSE}
+
+```
 
 ```{r gettemp,eval = FALSE}
-<<gettemp>>
+
 ```
+
 ```{r compproj,eval = FALSE}
-<<compproj>>
+
 ```
 
 
 ```{r runfig3,echo=FALSE}
-<<runfig3>>
+
 ```
 
-
+### Conclusions
+We have shown there is substantial evidence for the replication of the authors' results in figures 2 and 3 of the paper. The original figures from the paper were reproducible with relative ease. Furthermore, we were able to modify the classification percentiles of rich and poor countries as well as the seed in the bootstrapping process and still observe nonlinear effects of temperature on economic output in both rich and poor countries. These modifications did not produce large changes to the results obtained or the output figures, indicating that the methods used by the original authors were fairly robust.
 
 # References cited
 
