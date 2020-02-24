@@ -14,6 +14,7 @@ scens <- c("base","SSP"%&%1:5)
 yrs <- 2010:2099
 
 #pdf(file="notes/Figure3.pdf",height=15,width=15)
+
 par(mar=c(5,4,4,4),xaxs="i",yaxs="i",mfrow=c(1,2))
 
 plotter <- function(scen){

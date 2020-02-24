@@ -1,7 +1,7 @@
 
 # SCRIPT TO MAKE FIGURE 2
 # This file calls data created in GenerateFigure2Data.do
-# @knitr runfig2
+# @knitr runfig2pdf
 rm(list = ls())
 
 library(pacman)
@@ -9,7 +9,9 @@ p_load(ncdf4, maptools,fields,classInt,plotrix,dplyr, here)
 "%&%"<-function(x,y)paste(x,y,sep="")  #define a function for easy string pasting
 
 
-#pdf(file="Figure2.pdf",width=10,height=5.5,useDingbats=F)
+
+pdf(file="analysis/Figure2.pdf",width=10,height=5.5,useDingbats=F)
+
 
 
 mat <- matrix(c(1,1,2,3,1,1,4,5),nrow=2,byrow=T)
@@ -212,5 +214,5 @@ for (m in toplot) {
   
 }
 
-#dev.off()
+dev.off()
 

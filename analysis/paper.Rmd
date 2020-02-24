@@ -9,12 +9,15 @@ output: bookdown::word_document2
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE,
                       collapse=TRUE,
-                      message=FALSE
+                      message=FALSE,
+                      warning = FALSE,
+                      results = "hide"
                       )
 knitr::opts_knit$set(root.dir = "../")
 
 knitr::read_chunk("F2_001_GenerateFigure2Data.do")
 knitr::read_chunk("F2_002_MakeFigure2.R")
+knitr::read_chunk("F2_003_MakeFigure2aspdf.R")
 knitr::read_chunk("F3_001_GenerateBootstrapData.do")
 knitr::read_chunk("F3_002_getTemperatureChange.R")
 knitr::read_chunk("F3_003_ComputeMainProjections.R")
@@ -40,6 +43,17 @@ Given the similar curves of GDP per capita in response to a change in annual ave
 ### Bootstrap randomization
 To replicate the same figures from the paper, the author uses a seed for each bootstrap regression. To verify that the seed was not causing the process to generate non-representative results, we changed it to a new value. In a robust and well-performed simulation and estimation, the seed chosen should not have a noticeable impact on the conclusions.
 
+```{r runfig2pdf}
+
+ generate_fig_2 <-function(){
+   <<runfig2pdf>>
+ }
+
+generate_fig_2()
+```
+
+
+
 ## Figures obtained
 ```{r, echo=FALSE, message=FALSE, eval=FALSE}
 library(Statamarkdown)
@@ -49,9 +63,20 @@ library(Statamarkdown)
 
 ```
 
-```{r runfig2,echo=FALSE, fig.width=8, fig.height=4.5}
+```{r runfig2,echo=FALSE, fig.width=8, fig.height=4.5, fig.cap="Effect of annual average temperature on economic production.", fig.align='center'}
 
 ```
+
+\newline
+
+
+Figure 1a shows the global non-linear relationship between annual average temperature and change in log gross domestic product (GDP) per capita during 1960–2010 with a 90% confidence interval. Histograms show global distribution of temperature exposure (red), population (grey), and income (black). 
+Figure 1b, compares rich (above 42 percentile, red) and poor (below 42 percentile, blue) countries. 
+Histograms show the distribution of country–year observations. 
+Figure 1c, compares early (1960– 1989) and late (1990–2010) subsamples (all countries). 
+Figure 1d, is the same plot as figure c but divided into agricultural and non-agricultural sectors/industries.
+
+From the figure and results obtained, it is clear that the same nonlinear relation between average temperature and gross domestic product (per capita). The conclusions from the original text are maintained.
 
 ```{stata prepfig3, collectcode=TRUE, echo = FALSE, error=TRUE}
 
@@ -66,9 +91,15 @@ library(Statamarkdown)
 ```
 
 
-```{r runfig3,echo=FALSE}
+```{r runfig3,echo=FALSE, fig.cap="Country-level income projections with and without temperature effects of climate change with SSP5 on the left and SSP3 on the right", fig.align='center'}
 
 ```
+
+\newline
+
+Figure 2, displays the projections for the year 2100 for the two scenarios,‘business as usual’ and climate change. Figure 2a, SSP5 assumes high baseline growth and fast income convergence. Figure 2b, SSP3 assumes low baseline growth and slow convergence. Each panel center is the year 2010 and each line is a projection of national income for a country. 
+
+The country-level income projections for the year 2100 also show a nearly identical distribution of values for both scenarios (with and without climate change). The conclusions of this part are the same as the original paper.
 
 ### Conclusions
 We have shown there is substantial evidence for the replication of the authors' results in figures 2 and 3 of the paper. The original figures from the paper were reproducible with relative ease. Furthermore, we were able to modify the classification percentiles of rich and poor countries as well as the seed in the bootstrapping process and still observe nonlinear effects of temperature on economic output in both rich and poor countries. These modifications did not produce large changes to the results obtained or the output figures, indicating that the methods used by the original authors were fairly robust.
