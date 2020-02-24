@@ -75,15 +75,15 @@ base = -0.3
 zz <- hist(histtemp,plot=F,breaks=bins)
 cts = zz$counts/max(zz$counts)*0.05  #sets the height of the tallest bar to 0.05
 rect(bins,base,bins+0.5,base+cts,col="red")
-text(6,base+0.055,labels="Global distribution of temperature observations")
+text(6,base+0.055,labels="Global distribution of temperature observations",cex=0.7)
 # pop
 cts = pop/max(pop)*0.05
 rect(bins,base-dis*(1),bins+0.5,base-dis*(1)+cts,col="grey")
-text(3,base-dis*(1)+0.045,labels="Global distribution of population")
+text(3.5,base-dis*(1)+0.045,labels="Global distribution of population",cex=0.7)
 # gdp
 cts = gdp/max(gdp)*0.05
 rect(bins,base-dis*(2),bins+0.5,base-dis*(2)+cts,col="black")
-text(2,base-dis*(2)+0.045,labels="Global distribution of GDP")
+text(3,base-dis*(2)+0.045,labels="Global distribution of GDP",cex=0.7)
 
 
 
@@ -98,7 +98,7 @@ resp <- resp[resp$x>=5,]  #dropping estimates below 5C, since so little poor cou
 mods = unique(as.character(resp$model))
 
 m <- "growthWDI"
-plot(1,xlim=c(5,30),ylim=c(-0.35,0.1),type="n",las=1,cex.axis=1.3,cex.lab=1.3,ylab="Change in ln(GDP per capita)",xlab="")
+plot(1,xlim=c(5,30),ylim=c(-0.35,0.1),type="n",las=1,cex.axis=1,cex.lab=1,ylab="Change in ln(GDP per capita)",xlab="")
 smp = resp$model==m & resp$interact==1  #poor countries
 xx = resp$x[smp]
 mx = max(resp$estimate[smp])
@@ -129,8 +129,8 @@ zz1 <- hist(poortemp,plot=F,breaks=bins)
 cts = zz1$counts/max(zz1$counts)*0.05
 rect(bins,base,bins+0.5,base+cts,col="lightblue")
 
-legend(16, 0.1 , legend=c("Rich", "Poor"),
-       col=c("red", "steelblue3"), lty=1, cex=0.65,
+legend(22, 0.1 , legend=c("Rich", "Poor"),
+       col=c("red", "steelblue3"), lty=1, cex=0.6,
        box.lty=0)
 ########################################################
 #  Panel c
@@ -145,7 +145,7 @@ est = resp$estimate[smp] - mx
 min90 = resp$min90[smp] - mx
 max90 = resp$max90[smp] - mx
 
-plot(1,xlim=c(5,30),ylim=c(-0.35,0.1),type="n",las=1,cex.axis=1.3,cex.lab=1.3,ylab="",xlab="")
+plot(1,xlim=c(5,30),ylim=c(-0.35,0.1),type="n",las=1,cex.axis=1,cex.lab=1,ylab="",xlab="")
 polygon(c(xx,rev(xx)),c(min90,rev(max90)),col="lightblue",border=NA)
 lines(xx,est,lwd=2,col="steelblue3")
 # now add point estimate for later period
@@ -168,8 +168,8 @@ zz1 <- hist(latetemp,plot=F,breaks=bins)
 cts = zz1$counts/max(zz1$counts)*0.05
 rect(bins,base,bins+0.5,base+cts,col="lightblue")
 
-legend(10, 0.1 , legend=c("1990-2010", "1960-1989"),
-       col=c("red", "steelblue3"), lty=1, cex=0.65,
+legend(14, 0.1 , legend=c("1990-2010", "1960-1989"),
+       col=c("red", "steelblue3"), lty=1, cex=0.6,
        box.lty=0)
 ########################################################
 #  Panels d, e
@@ -183,7 +183,7 @@ mods = unique(as.character(resp$model))
 toplot=c("AgrGDPgrowthCap","NonAgrGDPgrowthCap")
 tflag <- 1
 for (m in toplot) {
-  plot(1,xlim=c(5,30),ylim=c(-0.35,0.1),type="n",las=1,cex.axis=1.3,cex.lab=1.3,ylab=ifelse(tflag,"Change in ln(GDP per capita)",""),xlab="Annual average temperature (°C)",
+  plot(1,xlim=c(5,30),ylim=c(-0.35,0.1),type="n",las=1,cex.axis=1,cex.lab=1,ylab=ifelse(tflag,"Change in ln(GDP per capita)",""),xlab="Annual avg temp (°C)",
        main=ifelse(tflag,"Agricultural GDP","Non-Agricultural GDP"))
   smp = resp$model==m & resp$interact==1  #poor countries ifelse(test_expression, x, y)
   xx = resp$x[smp]
@@ -202,8 +202,8 @@ for (m in toplot) {
   est = resp$estimate[smp] - mx  
   lines(xx,est,lwd=2,col="red")
   
-  legend(16, 0.1 , legend=c("Rich", "Poor"),
-         col=c("red", "steelblue3"), lty=1, cex=0.65,
+  legend(20, 0.1 , legend=c("Rich", "Poor"),
+         col=c("red", "steelblue3"), lty=1, cex=0.6,
          box.lty=0)
   
   tflag <- 0 ## for labeling plots appropriately
