@@ -196,205 +196,205 @@ for (scen in c(1,4,6)) {
   GDPcapNoCC <- round(GDPcapNoCC,3)  #ditto
   save(GDPcapCC,file="data/output/projectionOutput/GDPcapCC_pooled_"%&%scens[scen]%&%".Rdata")
   save(GDPcapNoCC,file="data/output/projectionOutput/GDPcapNoCC_pooled_"%&%scens[scen]%&%".Rdata")
-  save(tots,file="data/output/projectionOutput/GlobalChanges_pooled_"%&%scens[scen]%&%".Rdata")
+  #save(tots,file="data/output/projectionOutput/GlobalChanges_pooled_"%&%scens[scen]%&%".Rdata")
   GDPcapCC <- GDPcapNoCC <- NULL
   print(scen)
   
 }
-
-
-####################################################################################################
-# RICH/POOR MODEL WITH NO LAGS
-####################################################################################################
-
-#   We have different response functions for countries that were above or below median income in the historical sample.  Countries move onto
-#     the rich-country response function in the future if their income rises above the historical median income (and vice versa if it falls).
-#     Depending where they are in the temperature distribution when this happens, the marginal effect of temperature on growth could change sign
-
-prj <- read.csv("data/output/bootstrap/bootstrap_richpoor.csv")  #interacted model, all obs
-np = dim(prj)[1]  #number of bootstrap replicates we ran. the first one is the one from the baseline model
-
-for (scen in c(1,4,6)) {
-  
-  growthproj <- growthProjections[[scen]]
-  popproj <- popProjections[[scen]]
-  
-  basegdp = popproj$gdpCap  #baseline GDP/cap
-  medgdp <- median(basegdp)
-  temp <- popproj$meantemp  #baseline temperature.  
-  
-  GDPcapCC = GDPcapNoCC = array(dim=c(dim(growthproj)[1],length(yrs),np))  #array to fill with GDP/cap for each country
-  dimnames(GDPcapCC) <- dimnames(GDPcapNoCC) <- list(growthproj[,1],yrs,1:np)
-  GDPcapCC[,1,] = GDPcapNoCC[,1,] = basegdp  #initialize with baseline per cap GDP
-  tots = array(dim=c(np,length(yrs),4))  #array to hold average global per cap GDP and total global GDP across scenarios, with and without climate change
-  dimnames(tots) <- list(1:np,yrs,c("avgGDPcapCC","avgGDPcapNoCC","TotGDPCC","TotGDPNoCC"))
-  
-  for (tt in 1:np) {  #looping over bootstrap estimates
-    for (i in 2:length(yrs)) {
-      j = i - 1
-      y <- yrs[i]
-      #baseline growth rate from SSP
-      basegrowth <- growthproj[,which(names(growthproj)==y)]
-      
-      #was country poor last year in climate change world?
-      poor <- GDPcapCC[,j,tt]<=medgdp
-      
-      #calculate appropriate predicted growth rates in world without climate change
-      bg = prj$temp[tt]*temp + prj$temp2[tt]*temp*temp  #predicted growth level for rich countries absent climate change
-      bg[poor] = prj$temppoor[tt]*temp[poor] + prj$temp2poor[tt]*temp[poor]*temp[poor]  #predicted growth level for poor countries absent climate change
-      
-      GDPcapNoCC[,i,tt] = GDPcapNoCC[,j,tt]*(1+basegrowth)  #last year's per cap GDP times this years growth rate
-      newtemp = temp+j*ccd
-      dg = prj$temp[tt]*newtemp + prj$temp2[tt]*newtemp*newtemp  #predicted growth under new temperature for rich countries
-      dg[poor] = prj$temppoor[tt]*newtemp[poor] + prj$temp2poor[tt]*newtemp[poor]*newtemp[poor]  #predicted growth for poor countries
-      
-      dg[newtemp>30 & poor==0] = prj$temp[tt]*30 + prj$temp2[tt]*30*30  #constrain response to response at 30C if temp goes above that for rich countries.  this is so we are not projecting out of sample
-      dg[newtemp>30 & poor==1] = prj$temppoor[tt]*30 + prj$temp2poor[tt]*30*30  #constrain response to response at 30C for poor countries  
-      diff = dg - bg  #difference between predicted baseline growth and predicted growth under new temp
-      GDPcapCC[,i,tt] = GDPcapCC[,j,tt]*(1+basegrowth + diff)  #last year's GDPcap (w/ climate change) times climate adjusted growth rate for this year
-      
-      #now calculate global average per cap GDP, weighting by population
-      wt = popproj[,which(names(popproj)==y)]  #population weights 
-      tots[tt,i,1] <- round(weighted.mean(GDPcapCC[,i,tt],wt),3)
-      tots[tt,i,2] <- round(weighted.mean(GDPcapNoCC[,i,tt],wt),3)
-      #total GDP with and without climate change. multiplying by 1e6 because population is in millions
-      tots[tt,i,3] <- sum(GDPcapCC[,i,tt]*wt*1e6)  #with climate change
-      tots[tt,i,4] <- sum(GDPcapNoCC[,i,tt]*wt*1e6) #without climate change
-    }
-  }
-  #write out scenario specific results
-  GDPcapCC <- round(GDPcapCC,3) #round to nearest dollar
-  GDPcapNoCC <- round(GDPcapNoCC,3)  #ditto
-  save(GDPcapCC,file="data/output/projectionOutput/GDPcapCC_richpoor_"%&%scens[scen]%&%".Rdata")
-  save(GDPcapNoCC,file="data/output/projectionOutput/GDPcapNoCC_richpoor_"%&%scens[scen]%&%".Rdata")
-  save(tots,file="data/output/projectionOutput/GlobalChanges_richpoor_"%&%scens[scen]%&%".Rdata")
-  GDPcapCC <- GDPcapNoCC <- NULL
-  print(scen)
-  
-}
-
-
-####################################################################################################
-# POOLED MODEL WITH 5 LAGS
-####################################################################################################
-
-prj <- read.csv("data/output/bootstrap/bootstrap_5lag.csv")  #bootstrapped projections of model with 5 lags
-np = dim(prj)[1]  #number of bootstrap replicates we ran. the first one is the one from the baseline model
-
-# now loop over SSP scenarios and our own scenario. just doing base, SSP3, SSP5 for now, since those appear to be the relevant ones
-for (scen in c(1,4,6)) {
-  
-  growthproj <- growthProjections[[scen]]
-  popproj <- popProjections[[scen]]
-  
-  basegdp = popproj$gdpCap  #baseline GDP/cap
-  temp <- popproj$meantemp  #baseline temperature.  
-  
-  GDPcapCC = GDPcapNoCC = array(dim=c(dim(growthproj)[1],length(yrs),np))  #array to fill with GDP/cap for each country
-  dimnames(GDPcapCC) <- dimnames(GDPcapNoCC) <- list(growthproj[,1],yrs,1:np)
-  GDPcapCC[,1,] = GDPcapNoCC[,1,] = basegdp  #initialize with baseline per cap GDP
-  tots = array(dim=c(np,length(yrs),4))  #array to hold average global per cap GDP and total global GDP across scenarios, with and without climate change
-  dimnames(tots) <- list(1:np,yrs,c("avgGDPcapCC","avgGDPcapNoCC","TotGDPCC","TotGDPNoCC"))
-  
-  for (tt in 1:np) {  #looping over bootstrap estimates
-    bg = prj$tlin[tt]*temp + prj$tsq[tt]*temp*temp  #this finds the predicted growth level for each country's temperature for the particular bootstrap run
-    for (i in 2:length(yrs)) {
-      j = i - 1
-      y = yrs[i]
-      basegrowth <- growthproj[,which(names(growthproj)==y)]
-      GDPcapNoCC[,i,tt] = GDPcapNoCC[,j,tt]*(1+basegrowth)  #last year's per cap GDP times this years growth rate, as projected by scenario
-      newtemp = temp+j*ccd
-      dg = prj$tlin[tt]*newtemp + prj$tsq[tt]*newtemp*newtemp  #predicted growth under new temperature
-      dg[newtemp>30] = prj$tlin[tt]*30 + prj$tsq[tt]*30*30  #constrain response to response at 30C if temp goes above that.  this is so we are not projecting out of sample
-      
-      diff = dg - bg  #difference between predicted baseline growth and predicted growth under new temp
-      GDPcapCC[,i,tt] = GDPcapCC[,j,tt]*(1+basegrowth + diff)  #last year's GDPcap (w/ climate change) times climate-adjusted growth rate for this year
-      
-      #now calculate global average per cap GDP, weighting by population
-      wt = popproj[,which(names(popproj)==y)]  #population weights 
-      tots[tt,i,1] <- round(weighted.mean(GDPcapCC[,i,tt],wt),3)
-      tots[tt,i,2] <- round(weighted.mean(GDPcapNoCC[,i,tt],wt),3)
-      #total GDP with and without climate change. multiplying by 1e6 because population is in millions
-      tots[tt,i,3] <- sum(GDPcapCC[,i,tt]*wt*1e6)  #with climate change
-      tots[tt,i,4] <- sum(GDPcapNoCC[,i,tt]*wt*1e6) #without climate change
-    }
-  }
-  #write out scenario specific results
-  GDPcapCC <- round(GDPcapCC,3) #round to nearest dollar
-  GDPcapNoCC <- round(GDPcapNoCC,3)  #ditto
-  save(GDPcapCC,file="data/output/projectionOutput/GDPcapCC_pooled5lag_"%&%scens[scen]%&%".Rdata")
-  save(GDPcapNoCC,file="data/output/projectionOutput/GDPcapNoCC_pooled5lag_"%&%scens[scen]%&%".Rdata")
-  save(tots,file="data/output/projectionOutput/GlobalChanges_pooled5lag_"%&%scens[scen]%&%".Rdata")
-  GDPcapCC <- GDPcapNoCC <- NULL
-  print(scen)
-  
-}
-
-
-####################################################################################################
-# RICH/POOR MODEL WITH 5 LAGS
-####################################################################################################
-
-prj <- read.csv("data/output/bootstrap/bootstrap_richpoor_5lag.csv")  #interacted model, all obs
-np = dim(prj)[1]  #number of bootstrap replicates we ran. the first one is the one from the baseline model
-
-for (scen in c(1,4,6)) {
-  
-  growthproj <- growthProjections[[scen]]
-  popproj <- popProjections[[scen]]
-  
-  basegdp = popproj$gdpCap  #baseline GDP/cap
-  medgdp <- median(basegdp)
-  temp <- popproj$meantemp  #baseline temperature.  
-  
-  GDPcapCC = GDPcapNoCC = array(dim=c(dim(growthproj)[1],length(yrs),np))  #array to fill with GDP/cap for each country
-  dimnames(GDPcapCC) <- dimnames(GDPcapNoCC) <- list(growthproj[,1],yrs,1:np)
-  GDPcapCC[,1,] = GDPcapNoCC[,1,] = basegdp  #initialize with baseline per cap GDP
-  tots = array(dim=c(np,length(yrs),4))  #array to hold average global per cap GDP and total global GDP across scenarios, with and without climate change
-  dimnames(tots) <- list(1:np,yrs,c("avgGDPcapCC","avgGDPcapNoCC","TotGDPCC","TotGDPNoCC"))
-  
-  for (tt in 1:np) {  #looping over bootstrap estimates
-    for (i in 2:length(yrs)) {
-      j = i - 1
-      y <- yrs[i]
-      #baseline growth rate from SSP
-      basegrowth <- growthproj[,which(names(growthproj)==y)]
-      
-      #was country poor last year in climate change world?
-      poor <- GDPcapCC[,j,tt]<=medgdp
-      
-      #calculate appropriate predicted growth rates in world without climate change
-      bg = prj$tlin[tt]*temp + prj$tsq[tt]*temp*temp  #predicted growth level for rich countries absent climate change
-      bg[poor] = prj$tlinpoor[tt]*temp[poor] + prj$tsqpoor[tt]*temp[poor]*temp[poor]  #predicted growth level for poor countries absent climate change
-      
-      GDPcapNoCC[,i,tt] = GDPcapNoCC[,j,tt]*(1+basegrowth)  #last year's per cap GDP times this years growth rate
-      newtemp = temp+j*ccd
-      dg = prj$tlin[tt]*newtemp + prj$tsq[tt]*newtemp*newtemp  #predicted growth under new temperature for rich countries
-      dg[poor] = prj$tlinpoor[tt]*newtemp[poor] + prj$tsqpoor[tt]*newtemp[poor]*newtemp[poor]  #predicted growth for poor countries
-      
-      dg[newtemp>30 & poor==0] = prj$tlin[tt]*30 + prj$tsq[tt]*30*30  #constrain response to response at 30C if temp goes above that for rich countries.  this is so we are not projecting out of sample
-      dg[newtemp>30 & poor==1] = prj$tlinpoor[tt]*30 + prj$tsqpoor[tt]*30*30  #constrain response to response at 30C for poor countries  
-      
-      diff = dg - bg  #difference between predicted baseline growth and predicted growth under new temp
-      GDPcapCC[,i,tt] = GDPcapCC[,j,tt]*(1+basegrowth + diff)  #last year's GDPcap (w/ climate change) times climate adjusted growth rate for this year
-      
-      #now calculate global average per cap GDP, weighting by population
-      wt = popproj[,which(names(popproj)==y)]  #population weights 
-      tots[tt,i,1] <- round(weighted.mean(GDPcapCC[,i,tt],wt),3)
-      tots[tt,i,2] <- round(weighted.mean(GDPcapNoCC[,i,tt],wt),3)
-      #total GDP with and without climate change. multiplying by 1e6 because population is in millions
-      tots[tt,i,3] <- sum(GDPcapCC[,i,tt]*wt*1e6)  #with climate change
-      tots[tt,i,4] <- sum(GDPcapNoCC[,i,tt]*wt*1e6) #without climate change
-    }
-  }
-  #write out scenario specific results
-  GDPcapCC <- round(GDPcapCC,3) #round to nearest dollar
-  GDPcapNoCC <- round(GDPcapNoCC,3)  #ditto
-  save(GDPcapCC,file="data/output/projectionOutput/GDPcapCC_richpoor5lag_"%&%scens[scen]%&%".Rdata")
-  save(GDPcapNoCC,file="data/output/projectionOutput/GDPcapNoCC_richpoor5lag_"%&%scens[scen]%&%".Rdata")
-  save(tots,file="data/output/projectionOutput/GlobalChanges_richpoor5lag_"%&%scens[scen]%&%".Rdata")
-  GDPcapCC <- GDPcapNoCC <- NULL
-  print(scen)
-  
-}
-
+# 
+# 
+# ####################################################################################################
+# # RICH/POOR MODEL WITH NO LAGS
+# ####################################################################################################
+# 
+# #   We have different response functions for countries that were above or below median income in the historical sample.  Countries move onto
+# #     the rich-country response function in the future if their income rises above the historical median income (and vice versa if it falls).
+# #     Depending where they are in the temperature distribution when this happens, the marginal effect of temperature on growth could change sign
+# 
+# prj <- read.csv("data/output/bootstrap/bootstrap_richpoor.csv")  #interacted model, all obs
+# np = dim(prj)[1]  #number of bootstrap replicates we ran. the first one is the one from the baseline model
+# 
+# for (scen in c(1,4,6)) {
+#   
+#   growthproj <- growthProjections[[scen]]
+#   popproj <- popProjections[[scen]]
+#   
+#   basegdp = popproj$gdpCap  #baseline GDP/cap
+#   medgdp <- median(basegdp)
+#   temp <- popproj$meantemp  #baseline temperature.  
+#   
+#   GDPcapCC = GDPcapNoCC = array(dim=c(dim(growthproj)[1],length(yrs),np))  #array to fill with GDP/cap for each country
+#   dimnames(GDPcapCC) <- dimnames(GDPcapNoCC) <- list(growthproj[,1],yrs,1:np)
+#   GDPcapCC[,1,] = GDPcapNoCC[,1,] = basegdp  #initialize with baseline per cap GDP
+#   tots = array(dim=c(np,length(yrs),4))  #array to hold average global per cap GDP and total global GDP across scenarios, with and without climate change
+#   dimnames(tots) <- list(1:np,yrs,c("avgGDPcapCC","avgGDPcapNoCC","TotGDPCC","TotGDPNoCC"))
+#   
+#   for (tt in 1:np) {  #looping over bootstrap estimates
+#     for (i in 2:length(yrs)) {
+#       j = i - 1
+#       y <- yrs[i]
+#       #baseline growth rate from SSP
+#       basegrowth <- growthproj[,which(names(growthproj)==y)]
+#       
+#       #was country poor last year in climate change world?
+#       poor <- GDPcapCC[,j,tt]<=medgdp
+#       
+#       #calculate appropriate predicted growth rates in world without climate change
+#       bg = prj$temp[tt]*temp + prj$temp2[tt]*temp*temp  #predicted growth level for rich countries absent climate change
+#       bg[poor] = prj$temppoor[tt]*temp[poor] + prj$temp2poor[tt]*temp[poor]*temp[poor]  #predicted growth level for poor countries absent climate change
+#       
+#       GDPcapNoCC[,i,tt] = GDPcapNoCC[,j,tt]*(1+basegrowth)  #last year's per cap GDP times this years growth rate
+#       newtemp = temp+j*ccd
+#       dg = prj$temp[tt]*newtemp + prj$temp2[tt]*newtemp*newtemp  #predicted growth under new temperature for rich countries
+#       dg[poor] = prj$temppoor[tt]*newtemp[poor] + prj$temp2poor[tt]*newtemp[poor]*newtemp[poor]  #predicted growth for poor countries
+#       
+#       dg[newtemp>30 & poor==0] = prj$temp[tt]*30 + prj$temp2[tt]*30*30  #constrain response to response at 30C if temp goes above that for rich countries.  this is so we are not projecting out of sample
+#       dg[newtemp>30 & poor==1] = prj$temppoor[tt]*30 + prj$temp2poor[tt]*30*30  #constrain response to response at 30C for poor countries  
+#       diff = dg - bg  #difference between predicted baseline growth and predicted growth under new temp
+#       GDPcapCC[,i,tt] = GDPcapCC[,j,tt]*(1+basegrowth + diff)  #last year's GDPcap (w/ climate change) times climate adjusted growth rate for this year
+#       
+#       #now calculate global average per cap GDP, weighting by population
+#       wt = popproj[,which(names(popproj)==y)]  #population weights 
+#       tots[tt,i,1] <- round(weighted.mean(GDPcapCC[,i,tt],wt),3)
+#       tots[tt,i,2] <- round(weighted.mean(GDPcapNoCC[,i,tt],wt),3)
+#       #total GDP with and without climate change. multiplying by 1e6 because population is in millions
+#       tots[tt,i,3] <- sum(GDPcapCC[,i,tt]*wt*1e6)  #with climate change
+#       tots[tt,i,4] <- sum(GDPcapNoCC[,i,tt]*wt*1e6) #without climate change
+#     }
+#   }
+#   #write out scenario specific results
+#   GDPcapCC <- round(GDPcapCC,3) #round to nearest dollar
+#   GDPcapNoCC <- round(GDPcapNoCC,3)  #ditto
+#   save(GDPcapCC,file="data/output/projectionOutput/GDPcapCC_richpoor_"%&%scens[scen]%&%".Rdata")
+#   save(GDPcapNoCC,file="data/output/projectionOutput/GDPcapNoCC_richpoor_"%&%scens[scen]%&%".Rdata")
+#   save(tots,file="data/output/projectionOutput/GlobalChanges_richpoor_"%&%scens[scen]%&%".Rdata")
+#   GDPcapCC <- GDPcapNoCC <- NULL
+#   print(scen)
+#   
+# }
+# 
+# 
+# ####################################################################################################
+# # POOLED MODEL WITH 5 LAGS
+# ####################################################################################################
+# 
+# prj <- read.csv("data/output/bootstrap/bootstrap_5lag.csv")  #bootstrapped projections of model with 5 lags
+# np = dim(prj)[1]  #number of bootstrap replicates we ran. the first one is the one from the baseline model
+# 
+# # now loop over SSP scenarios and our own scenario. just doing base, SSP3, SSP5 for now, since those appear to be the relevant ones
+# for (scen in c(1,4,6)) {
+#   
+#   growthproj <- growthProjections[[scen]]
+#   popproj <- popProjections[[scen]]
+#   
+#   basegdp = popproj$gdpCap  #baseline GDP/cap
+#   temp <- popproj$meantemp  #baseline temperature.  
+#   
+#   GDPcapCC = GDPcapNoCC = array(dim=c(dim(growthproj)[1],length(yrs),np))  #array to fill with GDP/cap for each country
+#   dimnames(GDPcapCC) <- dimnames(GDPcapNoCC) <- list(growthproj[,1],yrs,1:np)
+#   GDPcapCC[,1,] = GDPcapNoCC[,1,] = basegdp  #initialize with baseline per cap GDP
+#   tots = array(dim=c(np,length(yrs),4))  #array to hold average global per cap GDP and total global GDP across scenarios, with and without climate change
+#   dimnames(tots) <- list(1:np,yrs,c("avgGDPcapCC","avgGDPcapNoCC","TotGDPCC","TotGDPNoCC"))
+#   
+#   for (tt in 1:np) {  #looping over bootstrap estimates
+#     bg = prj$tlin[tt]*temp + prj$tsq[tt]*temp*temp  #this finds the predicted growth level for each country's temperature for the particular bootstrap run
+#     for (i in 2:length(yrs)) {
+#       j = i - 1
+#       y = yrs[i]
+#       basegrowth <- growthproj[,which(names(growthproj)==y)]
+#       GDPcapNoCC[,i,tt] = GDPcapNoCC[,j,tt]*(1+basegrowth)  #last year's per cap GDP times this years growth rate, as projected by scenario
+#       newtemp = temp+j*ccd
+#       dg = prj$tlin[tt]*newtemp + prj$tsq[tt]*newtemp*newtemp  #predicted growth under new temperature
+#       dg[newtemp>30] = prj$tlin[tt]*30 + prj$tsq[tt]*30*30  #constrain response to response at 30C if temp goes above that.  this is so we are not projecting out of sample
+#       
+#       diff = dg - bg  #difference between predicted baseline growth and predicted growth under new temp
+#       GDPcapCC[,i,tt] = GDPcapCC[,j,tt]*(1+basegrowth + diff)  #last year's GDPcap (w/ climate change) times climate-adjusted growth rate for this year
+#       
+#       #now calculate global average per cap GDP, weighting by population
+#       wt = popproj[,which(names(popproj)==y)]  #population weights 
+#       tots[tt,i,1] <- round(weighted.mean(GDPcapCC[,i,tt],wt),3)
+#       tots[tt,i,2] <- round(weighted.mean(GDPcapNoCC[,i,tt],wt),3)
+#       #total GDP with and without climate change. multiplying by 1e6 because population is in millions
+#       tots[tt,i,3] <- sum(GDPcapCC[,i,tt]*wt*1e6)  #with climate change
+#       tots[tt,i,4] <- sum(GDPcapNoCC[,i,tt]*wt*1e6) #without climate change
+#     }
+#   }
+#   #write out scenario specific results
+#   GDPcapCC <- round(GDPcapCC,3) #round to nearest dollar
+#   GDPcapNoCC <- round(GDPcapNoCC,3)  #ditto
+#   save(GDPcapCC,file="data/output/projectionOutput/GDPcapCC_pooled5lag_"%&%scens[scen]%&%".Rdata")
+#   save(GDPcapNoCC,file="data/output/projectionOutput/GDPcapNoCC_pooled5lag_"%&%scens[scen]%&%".Rdata")
+#   save(tots,file="data/output/projectionOutput/GlobalChanges_pooled5lag_"%&%scens[scen]%&%".Rdata")
+#   GDPcapCC <- GDPcapNoCC <- NULL
+#   print(scen)
+#   
+# }
+# 
+# 
+# ####################################################################################################
+# # RICH/POOR MODEL WITH 5 LAGS
+# ####################################################################################################
+# 
+# prj <- read.csv("data/output/bootstrap/bootstrap_richpoor_5lag.csv")  #interacted model, all obs
+# np = dim(prj)[1]  #number of bootstrap replicates we ran. the first one is the one from the baseline model
+# 
+# for (scen in c(1,4,6)) {
+#   
+#   growthproj <- growthProjections[[scen]]
+#   popproj <- popProjections[[scen]]
+#   
+#   basegdp = popproj$gdpCap  #baseline GDP/cap
+#   medgdp <- median(basegdp)
+#   temp <- popproj$meantemp  #baseline temperature.  
+#   
+#   GDPcapCC = GDPcapNoCC = array(dim=c(dim(growthproj)[1],length(yrs),np))  #array to fill with GDP/cap for each country
+#   dimnames(GDPcapCC) <- dimnames(GDPcapNoCC) <- list(growthproj[,1],yrs,1:np)
+#   GDPcapCC[,1,] = GDPcapNoCC[,1,] = basegdp  #initialize with baseline per cap GDP
+#   tots = array(dim=c(np,length(yrs),4))  #array to hold average global per cap GDP and total global GDP across scenarios, with and without climate change
+#   dimnames(tots) <- list(1:np,yrs,c("avgGDPcapCC","avgGDPcapNoCC","TotGDPCC","TotGDPNoCC"))
+#   
+#   for (tt in 1:np) {  #looping over bootstrap estimates
+#     for (i in 2:length(yrs)) {
+#       j = i - 1
+#       y <- yrs[i]
+#       #baseline growth rate from SSP
+#       basegrowth <- growthproj[,which(names(growthproj)==y)]
+#       
+#       #was country poor last year in climate change world?
+#       poor <- GDPcapCC[,j,tt]<=medgdp
+#       
+#       #calculate appropriate predicted growth rates in world without climate change
+#       bg = prj$tlin[tt]*temp + prj$tsq[tt]*temp*temp  #predicted growth level for rich countries absent climate change
+#       bg[poor] = prj$tlinpoor[tt]*temp[poor] + prj$tsqpoor[tt]*temp[poor]*temp[poor]  #predicted growth level for poor countries absent climate change
+#       
+#       GDPcapNoCC[,i,tt] = GDPcapNoCC[,j,tt]*(1+basegrowth)  #last year's per cap GDP times this years growth rate
+#       newtemp = temp+j*ccd
+#       dg = prj$tlin[tt]*newtemp + prj$tsq[tt]*newtemp*newtemp  #predicted growth under new temperature for rich countries
+#       dg[poor] = prj$tlinpoor[tt]*newtemp[poor] + prj$tsqpoor[tt]*newtemp[poor]*newtemp[poor]  #predicted growth for poor countries
+#       
+#       dg[newtemp>30 & poor==0] = prj$tlin[tt]*30 + prj$tsq[tt]*30*30  #constrain response to response at 30C if temp goes above that for rich countries.  this is so we are not projecting out of sample
+#       dg[newtemp>30 & poor==1] = prj$tlinpoor[tt]*30 + prj$tsqpoor[tt]*30*30  #constrain response to response at 30C for poor countries  
+#       
+#       diff = dg - bg  #difference between predicted baseline growth and predicted growth under new temp
+#       GDPcapCC[,i,tt] = GDPcapCC[,j,tt]*(1+basegrowth + diff)  #last year's GDPcap (w/ climate change) times climate adjusted growth rate for this year
+#       
+#       #now calculate global average per cap GDP, weighting by population
+#       wt = popproj[,which(names(popproj)==y)]  #population weights 
+#       tots[tt,i,1] <- round(weighted.mean(GDPcapCC[,i,tt],wt),3)
+#       tots[tt,i,2] <- round(weighted.mean(GDPcapNoCC[,i,tt],wt),3)
+#       #total GDP with and without climate change. multiplying by 1e6 because population is in millions
+#       tots[tt,i,3] <- sum(GDPcapCC[,i,tt]*wt*1e6)  #with climate change
+#       tots[tt,i,4] <- sum(GDPcapNoCC[,i,tt]*wt*1e6) #without climate change
+#     }
+#   }
+#   #write out scenario specific results
+#   GDPcapCC <- round(GDPcapCC,3) #round to nearest dollar
+#   GDPcapNoCC <- round(GDPcapNoCC,3)  #ditto
+#   save(GDPcapCC,file="data/output/projectionOutput/GDPcapCC_richpoor5lag_"%&%scens[scen]%&%".Rdata")
+#   save(GDPcapNoCC,file="data/output/projectionOutput/GDPcapNoCC_richpoor5lag_"%&%scens[scen]%&%".Rdata")
+#   save(tots,file="data/output/projectionOutput/GlobalChanges_richpoor5lag_"%&%scens[scen]%&%".Rdata")
+#   GDPcapCC <- GDPcapNoCC <- NULL
+#   print(scen)
+#   
+# }
+# 

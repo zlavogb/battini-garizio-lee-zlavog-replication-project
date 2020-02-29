@@ -82,11 +82,11 @@ From the figure and results obtained, it is clear that the same nonlinear relati
 
 ```
 
-```{r gettemp,eval = FALSE}
+```{r gettemp,echo = FALSE}
 
 ```
 
-```{r compproj,eval = FALSE}
+```{r compproj,echo = FALSE}
 
 ```
 

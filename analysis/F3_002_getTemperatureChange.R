@@ -17,8 +17,8 @@ cty1 <- cty[cty@data[,3]!="Antarctica" & cty@data[,3]!="Svalbard",]  #drop antar
 nc <- nc_open("data/input/CCprojections/diff_tas_Amon_modmean_rcp85_000_2081-2100_minus_1986-2005_mon1_ave12_withsd.nc")
 tmp <- ncvar_get(nc,"diff")
 r <- raster(aperm(tmp[c(73:144,1:72),72:1],c(2,1)),xmn=-180,xmx=180,ymn=-90,ymx=90)
-plot(r)
-map(,add=T)
+#plot(r)
+#map(,add=T)
 
 #population data from Gridded Population of the World dataset
 pop = readAsciiGrid("data/input/populationData/glp00ag30.asc") #check out ?SpatialGridDataFrame, which is the class of the thing that is getting read in
