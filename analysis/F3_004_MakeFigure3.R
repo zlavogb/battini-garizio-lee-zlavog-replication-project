@@ -39,12 +39,12 @@ plotter(4)
 #dev.off()
 
 #statistics in paper on number of countries above/below thresholds
-for (scen in c(4,6)) {
-  load("data/output/projectionOutput/GDPcapCC_pooled_"%&%scens[scen]%&%".Rdata")
-  load("data/output/projectionOutput/GDPcapNoCC_pooled_"%&%scens[scen]%&%".Rdata")
-  z1 <- round(sum(GDPcapCC[,90,1]<GDPcapCC[,1,1])/dim(GDPcapCC)[1]*100,2)
-  print("%countries absolutely poorer, "%&%scens[scen]%&%" = "%&%z1)  #percent of countries that are poorer in 2100 under CC relative to today
-  z2 <- round(sum(GDPcapCC[,90,1]<GDPcapNoCC[,90,1])/dim(GDPcapCC)[1]*100,2)
-  print("%countries relatively poorer, "%&%scens[scen]%&%" = "%&%z2)  #percent of countries that are poorer in 2100 under CC relative to today
-}
+# for (scen in c(4,6)) {
+#   load("data/output/projectionOutput/GDPcapCC_pooled_"%&%scens[scen]%&%".Rdata")
+#   load("data/output/projectionOutput/GDPcapNoCC_pooled_"%&%scens[scen]%&%".Rdata")
+#   z1 <- round(sum(GDPcapCC[,90,1]<GDPcapCC[,1,1])/dim(GDPcapCC)[1]*100,2)
+#   print("%countries absolutely poorer, "%&%scens[scen]%&%" = "%&%z1)  #percent of countries that are poorer in 2100 under CC relative to today
+#   z2 <- round(sum(GDPcapCC[,90,1]<GDPcapNoCC[,90,1])/dim(GDPcapCC)[1]*100,2)
+#   print("%countries relatively poorer, "%&%scens[scen]%&%" = "%&%z2)  #percent of countries that are poorer in 2100 under CC relative to today
+# }
 
