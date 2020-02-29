@@ -92,4 +92,4 @@ STATA version Stata/MP 14
 
 # Contributing:
 
-We welcome contributions from everyone. Before you get started, please see our [contributor guidelines](./.github/CONTRIBUTING.md). Please note that this project is released with a [Contributor Code of Conduct](./CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+We welcome contributions from everyone. Before you get started, please see our [contributor guidelines](./.github/CONTRIBUTING.md). Please note that this project is released with a [Contributor Code of Conduct](./CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms. User agrees that, where applicable, content will not be used to identify or to otherwise infringe the privacy or confidentiality rights of individuals. Content is distributed via the Stanford Digital Repository.
